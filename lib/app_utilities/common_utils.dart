@@ -18,8 +18,20 @@ void startScreen(BuildContext context, Widget screen){
   Navigator.push(context, SlideLeftRoute(widget: screen));
 }
 
-void closeScreen(BuildContext context){
-  Navigator.pop(context);
+Future<dynamic> startScreenAndGetResult(BuildContext context, Widget screen) async{
+  return await Navigator.push(context, SlideLeftRoute(widget: screen));
+}
+
+void startScreenAndKillThis(BuildContext context, {Widget screen, Route newRoute}){
+  if(newRoute == null){
+    Navigator.pushReplacement(context, SlideLeftRoute(widget: screen));
+  }else{
+    Navigator.pushReplacement(context, newRoute);
+  }
+}
+
+void closeScreen(BuildContext context, {dynamic result}){
+  Navigator.pop(context, result);
 }
 
 class NoSlide extends MaterialPageRoute{
@@ -82,3 +94,5 @@ Future<Uint8List> getBytesFromAsset(String path, int width) async {
   ui.FrameInfo fi = await codec.getNextFrame();
   return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
 }
+
+bool validateEmail(String email) => RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);

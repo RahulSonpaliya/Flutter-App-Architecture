@@ -11,6 +11,7 @@ class AppTextField extends StatelessWidget{
   final bool isPasswordType, isEnabled, showDropIcon, showPhonePrefix, showAsDisabled;
   final TextEditingController controller;
   final String prefixText;
+  final Widget dropDownIcon;
 
   const AppTextField({Key key,
     this.textCapitalization,
@@ -23,6 +24,7 @@ class AppTextField extends StatelessWidget{
     this.showDropIcon,
     this.showAsDisabled,
     this.prefixText,
+    this.dropDownIcon,
     this.showPhonePrefix
   }) : super(key: key);
 
@@ -45,14 +47,15 @@ class AppTextField extends StatelessWidget{
           keyboardType: inputType != null ? inputType : TextInputType.text,
           obscureText: isPasswordType != null ? isPasswordType : false,
           enabled: isEnabled != null ? isEnabled : true,
+          textAlignVertical: TextAlignVertical.center,
           minLines: minLines,
           maxLines: maxLines,
           decoration: InputDecoration(
-            border: InputBorder.none,          
-            prefixIcon: (showPhonePrefix != null && showPhonePrefix) ? _getPhoneNumberPrefix() : null,
+            border: InputBorder.none,
+            icon: (showPhonePrefix != null && showPhonePrefix) ? _getPhoneNumberPrefix() : null,
             prefix: prefixText != null ? Text(prefixText, style: TextStyleBuilder.regularSmall()) : null,
-            suffixIcon: (showDropIcon!= null && showDropIcon) ? Image.asset('assets/ic_dropdown.png') : null,
-            contentPadding: EdgeInsets.all(SizeConfig.dimen_10sdp),            
+            suffixIcon: (showDropIcon!= null && showDropIcon) ? dropDownIcon != null ? dropDownIcon : Image.asset('assets/ic_dropdown.png') : null,
+            contentPadding: (showPhonePrefix != null && showPhonePrefix) ? EdgeInsets.only(top: SizeConfig.dimen_10sdp, bottom: SizeConfig.dimen_10sdp,) : EdgeInsets.all(SizeConfig.dimen_10sdp),
           ),
         )
     );
@@ -60,13 +63,13 @@ class AppTextField extends StatelessWidget{
 
   Widget _getPhoneNumberPrefix(){
     return Container(
-        padding: EdgeInsets.all(SizeConfig.dimen_10sdp),
-        decoration: BoxDecoration(
-          color: colorGray_300,
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(SizeConfig.inputBorderRadius), bottomLeft: Radius.circular(SizeConfig.inputBorderRadius)),          
-        ),
-        child: Text('+91', style: TextStyleBuilder.regularSmall(), textAlign: TextAlign.center,),
-      );
+      padding: EdgeInsets.only(top: SizeConfig.dimen_10sdp, bottom: SizeConfig.dimen_10sdp, right: SizeConfig.dimen_15sdp, left: SizeConfig.dimen_15sdp),
+      decoration: BoxDecoration(
+        color: colorGray_300,
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(SizeConfig.inputBorderRadius), bottomLeft: Radius.circular(SizeConfig.inputBorderRadius)),
+      ),
+      child: Text('+91', style: TextStyleBuilder.regularSmall(), textAlign: TextAlign.center,),
+    );
   }
 }
 
