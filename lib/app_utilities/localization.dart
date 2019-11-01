@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+//cm -> added cancel-string
+
 class AppLocalizations{
   final Locale locale;
   AppLocalizations(this.locale);
@@ -15,6 +17,7 @@ class AppLocalizations{
     'en' : {
       'app_name' : 'My App',
       'ok' : 'OK',
+      'cancel_caps' : 'CANCEL',
       'retry' : 'RETRY',
       'unauthorized_access' : 'Your last login session is expired, please login again.',
       'internet_connection_msg' : 'Please check your internet connection & try again',

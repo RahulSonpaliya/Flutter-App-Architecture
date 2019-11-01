@@ -16,10 +16,13 @@ const String FORGOT_PASSWORD = BASE_URL+"api/forgot-password/";
 const String RESET_PASSWORD = BASE_URL+"api/reset-password";
 const String CHECK_SOCIAL_DETAIL = BASE_URL+"api/check-social-detail";
 const String SOCIAL_SIGNUP = BASE_URL+"api/social-signup";
+const String LOGOUT = BASE_URL+"api/logout";
 
 const Map<String, String> HEADER = const{
   'Accept': 'application/json'
 };
+
+//commit message -> added post-api for multipart request. added logout api calling method.
 
 abstract class Repository{
   static final Repository _repo = new Network();
@@ -62,6 +65,8 @@ abstract class Repository{
   Future<void> checkSocialDetail(NetworkResponseCallBack<BaseResponse> networkResponseCallBack, {@required Map<String, String> requestBody});
 
   Future<void> socialSignUp(NetworkResponseCallBack<BaseResponse> networkResponseCallBack, {@required Map<String, String> requestBody});
+
+  Future<void> logout(NetworkResponseCallBack<BaseResponse> networkResponseCallBack);
 }
 
 class Network extends Repository{
@@ -112,6 +117,12 @@ class Network extends Repository{
     http.Response response = await callPostAPI(SOCIAL_SIGNUP, HEADER, body: requestBody);
     parseResponse(response, parseBaseResponse, networkResponseCallBack);
   }
+
+  @override
+  Future<void> logout(NetworkResponseCallBack<BaseResponse> networkResponseCallBack) async {
+    http.Response response = await callPostAPI(LOGOUT, HEADER);
+    parseResponse(response, parseBaseResponse, networkResponseCallBack);
+  }
 }
 
 Future<http.Response> callPostAPI(String apiURL, Map<String, String> headers, {Map<String, String> body}) async {
@@ -144,4 +155,18 @@ Future<http.Response> callGetAPI(String apiURL, {Map<String, String> headers}) a
       return null;
     });
   }
+}
+
+Future<http.Response> callPostAPIMultipart(String apiURL, Map<String, String> headers, {Map<String, String> body}) async {
+  var request = new http.MultipartRequest("POST", Uri.parse(apiURL));
+  headers.forEach((k, v) => request.headers[k] = v);
+  if(body != null){
+    body.forEach((k, v) => request.fields[k] = v);
+  }
+  var response = await request.send().catchError((error){
+    return null;
+  }).timeout(Duration(seconds: 60), onTimeout: (){
+    return null;
+  });
+  return await http.Response.fromStream(response);
 }
