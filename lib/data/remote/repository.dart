@@ -22,8 +22,6 @@ const Map<String, String> HEADER = const{
   'Accept': 'application/json'
 };
 
-//commit message -> added post-api for multipart request. added logout api calling method.
-
 abstract class Repository{
   static final Repository _repo = new Network();
   static Repository get() => _repo;

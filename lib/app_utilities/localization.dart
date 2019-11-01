@@ -3,8 +3,6 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-//cm -> added cancel-string
-
 class AppLocalizations{
   final Locale locale;
   AppLocalizations(this.locale);

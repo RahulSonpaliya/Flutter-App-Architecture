@@ -1,8 +1,6 @@
 import 'package:flutter_app_architecture/data/local/preference_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//commit message -> updated clear-shared-prefs method, to hold user-email & password for remember-me feature.
-
 class AppSharedPrefs{
 
   static final AppSharedPrefs _repo = new AppSharedPrefs();
